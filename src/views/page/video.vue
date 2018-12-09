@@ -58,7 +58,16 @@
 
 <script>
 export default {
-  name: 'video-manager'
+  name: 'video-manager',
+  data () {
+
+  },
+  mounted () {
+
+  },
+  methods: {
+
+  }
 }
 </script>
 

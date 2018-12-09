@@ -1,12 +1,13 @@
 import axios from 'axios'
+import store from '../store'
 import vue from 'vue'
 
-const service = aixos.create({
-  baseURL: process.env.BASE_API,
+const instance = axios.create({
+  baseURL: 'http://localhost:8081/#',
   timeout: 5000
-});
+})
 
-service.interceptors.request.use(
+instance.interceptors.request.use(
   config => {
 	return config;
   }, 
@@ -16,17 +17,17 @@ service.interceptors.request.use(
   }
 )
 
-service.interceptors.response.use(
+instance.interceptors.response.use(
   response => response,
   error => {
-    console.log('err' + error)
-    vue.$Message.error({
-    	message: error.message,
-    	duration: 5 * 1000,
-    	closable: true
-    })
+    // console.log('err' + error)
+    // vue.$Message.error({
+    // 	message: error.message,
+    // 	duration: 5 * 1000,
+    // 	closable: true
+    // })
     return Promise.reject(error)
   }
 )
 
-export default service;
+export default instance

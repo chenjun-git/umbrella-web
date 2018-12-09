@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Button type="primary">添加用户</Button>
     <Button type="primary">删除用户</Button>
     <Row :gutter="16">
       <Col span="4">
@@ -18,7 +17,7 @@
     <Table :columns="columns" :data="data"></Table>
     <br>
 
-    <Page :total="100" @on-change="handlePage" @on-page-size-change='handlePageSize'/>
+    <Page :total="userTotal" :page-size="pageCount" @on-change="handlePage" @on-page-size-change='handlePageSize'/>
   </div>
 </template>
 
@@ -27,6 +26,8 @@ export default {
 	name: "user-manager",
 	data () {
 	  return {
+	    userTotal: 1000,
+	    pageCount: 20,
 	    columns: [
 	      {
             type: 'selection',
@@ -130,13 +131,44 @@ export default {
 	  }
 	},
 
+	mounted () {
+	  // 获取用户总数
+	  this.pageCount = 10
+	  this.$store.dispatch('GetUsersTotal').then((res) => {
+	    const userNum = res
+	    const pageinfo = {
+	      offset: 0,
+	      pagecount: this.pageCount,
+	    }
+	    // 设置store中用户总数
+	    this.userTotal = userNum
+	    this.$store.commit('SET_USER_TOTAL', userNum)
+	    // 获取第一页用户数据
+	    this.$store.dispatch('GetUsersInfo', { pageinfo }).then((res) => {
+	      // 显示用户数据
+	    }).catch((err) => {
+	      this.$Message.error(err)
+	    })
+	  }).catch((err) => {
+	    this.$Message.error(err)
+	  })
+	},
+
 	methods: {
-      handlePage (value) {
-      	alert(value)
+      handlePage (pageNum) {
+        const pageinfo = {
+	      offset: 10*(pageNum-1),
+	      pagecount: this.pageCount,
+	    }
+	    // 获取一页用户数据
+	    this.$store.dispatch('GetUsersInfo', { pageinfo }).then((res) => {
+	      // 显示用户数据
+	    }).catch((err) => {
+	      this.$Message.error(err)
+	    })
       }, 
 
-      handlePageSize (value) {
- 		alert(value)
+      handlePageSize (pageNum) {
       },
 
       remove (index) {

@@ -1,10 +1,14 @@
 import Cookies from 'js-cookie'
-// import { getUsersInfo } from 'api/user'
+import { asyncRouterMap, constantRouterMap } from 'src/router';
+import { getUsersTotal, getUsersInfo } from '../../api/user';
 
 const user = {
   state: {
   },
   mutations: {
+    SET_USER_TOTAL: (state, total) => {
+      state.total = total
+    },
   	SET_AUTH_TYPE: (state, type) => {
       state.auth_type = type;
     },
@@ -48,16 +52,26 @@ const user = {
   actions: {
   	LoginByEmail({ commit }, userInfo) {
   	},
-  	// GetUsersInfo({ commit, state }, pageinfo) {
-   //    return new Promise((resolve, reject) => {
-   //      getUsersInfo(pageinfo.offset, pageinfo.total, pageinfo.pagecount).then(response => {
+    GetUsersTotal({ commit }) {
+      return new Promise((resolve, reject) => {
+        getUsersTotal().then(res => {
+          resolve(1000)
+        }).catch(err => {
+          reject("获取用户总数失败:" + err)
+        })
+      })
+    },
+  	GetUsersInfo({ commit, state }, { pageinfo }) {
+      return new Promise((resolve, reject) => {
+        reject("获取用户列表信息失败")
+        // getUsersInfo(pageinfo.offset, pageinfo.total, pageinfo.pagecount).then(response => {
 
-   //        resolve(response)
-   //      }).catch(error => {
-   //        reject(error)
-   //      })
-   //    })
-  	// },
+        //   resolve(response)
+        // }).catch(error => {
+        //   reject(error)
+        // })
+      })
+  	},
   	LoginByThirdparty({ commit, state }, code) {
   	},
   	LogOut({ commit, state }) {

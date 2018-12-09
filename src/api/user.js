@@ -1,20 +1,27 @@
 import fetch from 'utils/fetch'
 
+
+export function getUsersTotal() {
+	return fetch({
+		url: '/dashboard',
+		method: 'get',
+	})
+}
 /*
 ** 获取全部用户信息
 */
-// export function getUsersInfo(offset, total, pagecount) {
-// 	const data = {
-// 		offset: offset,
-// 		total: total,
-// 		pagecount: pagecount
-// 	}
-// 	return fetch({
-// 		url: '/users',
-// 		method: 'get',
-// 		data
-// 	})
-// }
+export function getUsersInfo(offset, total, pageCount) {
+	// const data = {
+	// 	offset: offset,
+	// 	total: total,
+	// 	pagecount: pagecount
+	// }
+	// return fetch({
+	// 	url: '/users',
+	// 	method: 'get',
+	// 	data
+	// })
+}
 
 /*
 ** 获取单个用户信息
@@ -35,3 +42,11 @@ import fetch from 'utils/fetch'
 // 		method:
 // 	})
 // }
+
+export function deleteUser(id) {
+
+}
+
+export function addUser(userInfo) {
+
+}
